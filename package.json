@@ -46,7 +46,7 @@
   "dependencies": {
     "@fastify/rate-limit": "^11.2.0",
     "@fastify/redis": "^9.0.0",
-    "@fastify/swagger": "^9.8.1",
+    "@fastify/swagger": "^9.9.1",
     "@fastify/swagger-ui": "^6.1.1",
     "@prisma/client": "^5.22.0",
     "@sentry/node": "^10.74.0",
