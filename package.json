@@ -48,7 +48,7 @@
     "@fastify/redis": "^9.0.0",
     "@fastify/swagger": "^9.8.1",
     "@fastify/swagger-ui": "^6.1.1",
-    "@prisma/client": "^5.22.0",
+    "@prisma/client": "^7.10.0",
     "@sentry/node": "^10.74.0",
     "axios": "^1.7.9",
     "dotenv": "^16.4.7",
