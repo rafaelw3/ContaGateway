@@ -1,0 +1,4 @@
+# Scripts de shell rodam dentro do container Linux: CRLF quebra o shebang
+# ("./docker-entrypoint.sh: No such file or directory") em clones no Windows.
+*.sh text eol=lf
+Dockerfile text eol=lf

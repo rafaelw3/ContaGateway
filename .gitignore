@@ -1,0 +1,18 @@
+node_modules
+
+# Segredos — nunca versionar
+.env
+.env.*.local
+
+# Conteúdo de negócio (preço, margem, custo real de infra, plano de cliente) —
+# nunca neste repo técnico, mesmo privado (pode virar público um dia). Vive em
+# repositório separado — mantido fora deste repositório.
+BUSINESS.md
+
+# Banco de dados local (SQLite não é mais usado, mas evita reintrodução acidental)
+*.db
+*.db-journal
+prisma/dev.db
+
+# Build
+dist

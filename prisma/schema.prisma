@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  amount          Decimal
+  status          String   @default("PENDING")
+  pixPayload      String
+  qrId            String?  @unique
+  // Código curto e legível pro pagador final (ex: "K7X9-2B3F") — nunca o
+  // transactionHash. Nullable pra não exigir backfill de linhas históricas;
+  // toda cobrança criada a partir de agora sempre recebe um.
+  receiptCode     String?  @unique
+  transactionHash String?  @unique
+  // Horário do bloco do mint de cBRL que liquidou a cobrança (quando o
+  // dinheiro chegou), gravado junto com status PAID. Nullable: linhas pagas
+  // antes desta coluna existir não têm o valor.
+  paidAt          DateTime?
+  idempotencyKey  String?  @unique
+  metadata        String?
+  webhookUrl      String?
+  webhookStatus   String?  @default("PENDING")
+  webhookAttempts Int      @default(0)
+  createdAt       DateTime @default(now())
+  expiresAt       DateTime
+
+  @@index([status, amount])
+  @@map("payments")
+}
+
+// Último bloco da Base cujos mints de cBRL já foram processados até o fim.
+// Na subida (e periodicamente) o Web3Listener varre a partir daqui — sem
+// isso, um serviço fora do ar por mais que a janela fixa de varredura perdia
+// mints em silêncio. Uma linha por contrato monitorado (id = "cbrl-mints:<endereço>").
+model SyncCheckpoint {
+  id        String   @id
+  lastBlock BigInt
+  updatedAt DateTime @updatedAt
+
+  @@map("sync_checkpoints")
+}

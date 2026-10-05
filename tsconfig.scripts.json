@@ -1,0 +1,12 @@
+{
+  // Type-check (sem emitir) dos scripts operacionais e dos testes deles.
+  // O tsconfig.json principal só enxerga src/ (é o que vira dist/); os
+  // scripts rodam via tsx, que NÃO checa tipos — sem isto, um erro de tipo
+  // em scripts/ só aparece quando alguém roda o script.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "."
+  },
+  "include": ["scripts/**/*.ts", "src/**/*"]
+}

@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgrespassword
+          POSTGRES_DB: contagateway_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d contagateway_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies (respeita package-lock.json)
+        run: npm ci
+
+      - name: Gera o client do Prisma (ignore-scripts=true bloqueia o postinstall automático)
+        run: npm run prisma:generate
+
+      - name: Build (type-check + emissão)
+        run: npm run build
+
+      - name: Type-check dos scripts operacionais (tsx roda sem checar tipos)
+        run: npm run typecheck
+
+      - name: Aplica migrations no banco de teste
+        run: npm run test:migrate
+
+      - name: Roda a suíte de testes
+        run: npm test
+
+      - name: Audita vulnerabilidades nas dependências de produção
+        run: npm audit --omit=dev --audit-level=high
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Builda a imagem de produção (Dockerfile multi-stage, Node 22)
+        run: docker build -t contagateway:ci .
