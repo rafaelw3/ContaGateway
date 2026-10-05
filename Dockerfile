@@ -1,7 +1,7 @@
 # ==========================================
 # Estágio 1: Build da Aplicação (builder)
 # ==========================================
-FROM node:22-alpine AS builder
+FROM node:26-alpine AS builder
 
 RUN apk add --no-cache openssl
 
@@ -26,7 +26,7 @@ RUN npm prune --omit=dev
 # ==========================================
 # Estágio 2: Imagem Final de Produção (runner)
 # ==========================================
-FROM node:22-alpine AS runner
+FROM node:26-alpine AS runner
 
 # Instala dependências de runtime necessárias (OpenSSL para Prisma, dumb-init
 # para PID 1, wget para healthcheck; postgresql-client + rclone + curl só são
