@@ -5,6 +5,11 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    ignore:
+      # O projeto fixa Node 22 LTS: tipos de outra major aceitariam APIs que
+      # não existem em produção. Troca de major é decisão deliberada.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
@@ -13,3 +18,7 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    ignore:
+      # Mesma regra: a imagem acompanha o Node 22 LTS testado no CI.
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]
