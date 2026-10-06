@@ -10,6 +10,10 @@ updates:
       # não existem em produção. Troca de major é decisão deliberada.
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
+      # O dotenv 18 traz um bin `dotenv` próprio que sobrepõe o do dotenv-cli
+      # e quebra `dotenv -e .env.test -- ...` (npm run test:migrate).
+      - dependency-name: dotenv
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
