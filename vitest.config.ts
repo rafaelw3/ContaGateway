@@ -10,6 +10,9 @@ export default defineConfig({
   test: {
     globals: false,
     environment: 'node',
+    // Só os testes-fonte. Sem isto, o Vitest 5 também roda as cópias
+    // compiladas em dist/ (vindas do `npm run build`), duplicando a suíte.
+    include: ['src/**/*.test.ts', 'scripts/**/*.test.ts'],
     setupFiles: ['./test/setup.ts'],
     testTimeout: 15000,
     hookTimeout: 15000,
