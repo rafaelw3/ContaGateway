@@ -140,7 +140,7 @@ export class PaymentService {
       intentData = this.validateIntentResponse(response.data, amountCents);
     } catch (error) {
       if (error instanceof ContaVcContractDriftError) {
-        reportContractDrift('createPayment', { username, amountCents, ...error.details });
+        reportContractDrift('createPayment', { amountCents, ...error.details });
         throw error;
       }
       if (axios.isAxiosError(error)) {

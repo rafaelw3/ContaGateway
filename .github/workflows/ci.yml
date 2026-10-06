@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [master]
 
+# O CI só lê o código: token com o mínimo necessário (CodeQL
+# actions/missing-workflow-permissions).
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
