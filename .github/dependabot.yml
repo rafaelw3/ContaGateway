@@ -14,6 +14,17 @@ updates:
       # e quebra `dotenv -e .env.test -- ...` (npm run test:migrate).
       - dependency-name: dotenv
         update-types: ["version-update:semver-major"]
+      # Migrações com quebra de API, cada uma num PR próprio e deliberado.
+      # Sem isto o Dependabot reabre o PR a cada versão nova da major.
+      # Retirar a linha correspondente depois da migração.
+      - dependency-name: "@sentry/node"   # 11: setupFastifyErrorHandler, enableLogs
+        update-types: ["version-update:semver-major"]
+      - dependency-name: prisma           # 7: url sai do schema.prisma
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@prisma/client"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: typescript       # 7: compilador nativo
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
