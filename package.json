@@ -57,7 +57,7 @@
     "pino": "^10.4.0",
     "prisma": "^5.22.0",
     "qrcode": "^1.5.4",
-    "viem": "^2.21.55"
+    "viem": "^2.57.2"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",
